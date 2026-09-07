@@ -50,7 +50,7 @@
   importance: 3
   deps: [derivative-definition]
   claim: >
-    $d/dx x^n = n x^(n-1)$, for all real $n$.
+    $d/dx$ $x^n$ = $n$ $x^(n-1)$, for all real $n$.
   practice:
     - "Stewart 8e S3.1 #3-30"
   refs:
