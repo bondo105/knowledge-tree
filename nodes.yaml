@@ -50,7 +50,7 @@
   importance: 3
   deps: [derivative-definition]
   claim: >
-    $d/dx x^n = n x^(n-1)$, for all real $n$.
+    $\frac{d}{dx} x^n = n x^{n-1}$, for all real $n$.
   practice:
     - "Stewart 8e S3.1 #3-30"
   refs:
@@ -78,7 +78,7 @@
   deps: [product-rule]
   related: [chain-rule]
   claim: >
-    $(f/g)' = (f'g - fg') / g^2$.
+    $(\frac{f}{g})' = \frac{f'g - fg'}{g^2}$.
   practice:
     - "Stewart 8e S3.2 #27-43"
   refs:
@@ -105,7 +105,7 @@
   deps: [chain-rule]
   claim: >
     Differentiate both sides of an unsolved relation in $x$ and $y$, treating $y$
-    as a function of $x$, then solve for $dy/dx$.
+    as a function of $x$, then solve for $\frac{dy}{dx}$.
   practice:
     - "Stewart 8e S3.5 #5-20"
   refs:
@@ -161,7 +161,7 @@
   deps: [definite-integral, derivative-definition]
   claim: >
     Differentiation and integration are inverse operations: the accumulation
-    function of f has derivative f, and definite integrals are computed by
+    function of $f$ has derivative $f$, and definite integrals are computed by
     evaluating any antiderivative at the endpoints.
   practice:
     - "Stewart 8e S5.3 #7-48"
