@@ -8,6 +8,9 @@
 <script src="https://unpkg.com/cytoscape@3.30.2/dist/cytoscape.min.js"></script>
 <script src="https://unpkg.com/dagre@0.8.5/dist/dagre.min.js"></script>
 <script src="https://unpkg.com/cytoscape-dagre@2.5.0/cytoscape-dagre.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/katex@0.16.11/dist/katex.min.css">
+<script src="https://unpkg.com/katex@0.16.11/dist/katex.min.js"></script>
+<script src="https://unpkg.com/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 
 <style>
   :root {
@@ -86,6 +89,16 @@ async function refresh() {
 
 function ago(d) { return d === null ? 'never reviewed' : d + 'd ago'; }
 
+// claim/practice/action text may contain $inline$ or $$display$$ LaTeX.
+function renderMath(el) {
+  renderMathInElement(el, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });
+}
+
 function renderQueue(rows) {
   const el = document.getElementById('queue');
   if (!rows.length) {
@@ -112,6 +125,7 @@ function renderQueue(rows) {
       </div>`;
     el.appendChild(card);
   }
+  renderMath(el);
   el.querySelectorAll('.log button').forEach(b => {
     b.onclick = async () => {
       await post('/api/log', {id: b.dataset.id, confidence: +b.dataset.c});
@@ -167,6 +181,7 @@ function showDetail(id) {
     <ul class="practice">${n.practice.map(p => `<li>${p}</li>`).join('')}</ul>
     <div class="log">${[0,1,2,3].map(c =>
       `<button data-c="${c}" data-id="${id}">${c}</button>`).join('')}</div>`;
+  renderMath(d);
   d.querySelectorAll('button').forEach(b => {
     b.onclick = async () => {
       await post('/api/log', {id: b.dataset.id, confidence: +b.dataset.c});
