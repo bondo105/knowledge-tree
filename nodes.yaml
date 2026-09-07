@@ -21,8 +21,8 @@
   importance: 3
   deps: []
   claim: >
-    f(x) -> L as x -> a means we can force f within any tolerance of L
-    by restricting x to a small enough punctured interval around a.
+    $f(x)$ -> $L$ as $x$ -> $a$ means we can force $f$ within any tolerance of $L$
+    by restricting $x$ to a small enough punctured interval around a.
   practice:
     - "Stewart 8e S2.4 #15-24 (epsilon-delta)"
     - "State the definition from blank paper, then negate it"
@@ -36,7 +36,7 @@
   importance: 3
   deps: [limit-definition]
   claim: >
-    f'(a) is the limit of the difference quotient; it is the instantaneous
+    $f'(a)$ is the limit of the difference quotient; it is the instantaneous
     rate of change and the slope of the tangent line.
   practice:
     - "Stewart 8e S2.7 #25-34 (differentiate from the definition)"
@@ -50,7 +50,7 @@
   importance: 3
   deps: [derivative-definition]
   claim: >
-    d/dx x^n = n x^(n-1), for all real n.
+    $d/dx x^n = n x^(n-1)$, for all real $n$.
   practice:
     - "Stewart 8e S3.1 #3-30"
   refs:
@@ -63,7 +63,7 @@
   importance: 3
   deps: [derivative-definition]
   claim: >
-    (fg)' = f'g + fg'.
+    $(fg)' = f'g + fg'$.
   practice:
     - "Stewart 8e S3.2 #3-26"
     - "Derive it from the difference quotient without looking"
@@ -78,7 +78,7 @@
   deps: [product-rule]
   related: [chain-rule]
   claim: >
-    (f/g)' = (f'g - fg') / g^2.
+    $(f/g)' = (f'g - fg') / g^2$.
   practice:
     - "Stewart 8e S3.2 #27-43"
   refs:
@@ -91,7 +91,7 @@
   importance: 3
   deps: [derivative-definition]
   claim: >
-    (f o g)'(x) = f'(g(x)) g'(x); rates of change compose multiplicatively.
+    $(f o g)'(x) = f'(g(x)) g'(x)$; rates of change compose multiplicatively.
   practice:
     - "Stewart 8e S3.4 #7-46"
   refs:
@@ -104,8 +104,8 @@
   importance: 2
   deps: [chain-rule]
   claim: >
-    Differentiate both sides of an unsolved relation in x and y, treating y
-    as a function of x, then solve for dy/dx.
+    Differentiate both sides of an unsolved relation in $x$ and $y$, treating $y$
+    as a function of $x$, then solve for $dy/dx$.
   practice:
     - "Stewart 8e S3.5 #5-20"
   refs:
@@ -205,8 +205,8 @@
   importance: 1
   deps: [u-substitution]
   claim: >
-    Radicals of the form a^2 - x^2, a^2 + x^2, x^2 - a^2 are cleared by
-    substituting a sin, a tan, or a sec respectively.
+    Radicals of the form $a^2 - x^2$, $a^2 + x^2$, $x^2 - a^2$ are cleared by
+    substituting a $sin$, a $tan$, or a $sec$ respectively.
   practice:
     - "Stewart 8e S7.3 #1-24"
   refs:
