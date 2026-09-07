@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>knowledge tree</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Vendor these into static/vendor/ once it works. A CDN means the tool
+     breaks when your internet does, which defeats hosting it locally. -->
+<script src="https://unpkg.com/cytoscape@3.30.2/dist/cytoscape.min.js"></script>
+<script src="https://unpkg.com/dagre@0.8.5/dist/dagre.min.js"></script>
+<script src="https://unpkg.com/cytoscape-dagre@2.5.0/cytoscape-dagre.js"></script>
+
+<style>
+  :root {
+    --bg: #14161a; --panel: #1c1f26; --line: #2c313b;
+    --fg: #e6e8ec; --dim: #8b93a1;
+    --c0: #4a4f5a; --c1: #b4544a; --c2: #b8912f; --c3: #4f8a5b;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--fg);
+         font: 14px/1.5 ui-sans-serif, system-ui, sans-serif; }
+  header { display: flex; gap: 4px; padding: 10px 14px;
+           border-bottom: 1px solid var(--line); align-items: center; }
+  header h1 { font-size: 14px; font-weight: 600; margin: 0 16px 0 0; }
+  button.tab { background: none; border: 0; color: var(--dim);
+               padding: 6px 12px; cursor: pointer; border-radius: 5px; font: inherit; }
+  button.tab.on { background: var(--panel); color: var(--fg); }
+  main { padding: 14px; }
+  #cy { height: calc(100vh - 120px); background: var(--panel);
+        border: 1px solid var(--line); border-radius: 8px; }
+
+  .card { background: var(--panel); border: 1px solid var(--line);
+          border-radius: 8px; padding: 12px 14px; margin-bottom: 10px; }
+  .card.blocked { opacity: .55; }
+  .row { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; }
+  .title { font-weight: 600; }
+  .meta { color: var(--dim); font-size: 12px; }
+  .action { margin: 6px 0; }
+  ul.practice { margin: 6px 0 10px; padding-left: 18px; color: var(--dim); font-size: 13px; }
+  .score { font-variant-numeric: tabular-nums; color: var(--dim); font-size: 12px; }
+  .blockmsg { color: var(--c1); font-size: 12px; margin-top: 6px; }
+
+  .log button { background: #232833; color: var(--fg); border: 1px solid var(--line);
+                border-radius: 5px; padding: 5px 11px; margin-right: 5px;
+                cursor: pointer; font: inherit; }
+  .log button:hover { border-color: var(--dim); }
+  .log button[data-c="0"] { border-left: 3px solid var(--c0); }
+  .log button[data-c="1"] { border-left: 3px solid var(--c1); }
+  .log button[data-c="2"] { border-left: 3px solid var(--c2); }
+  .log button[data-c="3"] { border-left: 3px solid var(--c3); }
+  .empty { color: var(--dim); padding: 30px 0; }
+  #detail { position: fixed; right: 14px; bottom: 14px; width: 330px; max-width: 90vw;
+            display: none; }
+</style>
+
+<header>
+  <h1>knowledge tree</h1>
+  <button class="tab on" data-view="queue">Queue</button>
+  <button class="tab" data-view="graph">Graph</button>
+  <label class="meta" style="margin-left:auto">
+    <input type="checkbox" id="showBlocked"> show blocked
+  </label>
+</header>
+
+<main>
+  <div id="queue"></div>
+  <div id="graphWrap" hidden><div id="cy"></div><div id="detail" class="card"></div></div>
+</main>
+
+<script>
+const CONF = ['#4a4f5a', '#b4544a', '#b8912f', '#4f8a5b'];
+let GRAPH = [], STATE = {}, cy = null;
+
+const api = (p, opts) => fetch(p, opts).then(r => r.json());
+const post = (p, body) => api(p, {
+  method: 'POST', headers: {'Content-Type': 'application/json'},
+  body: JSON.stringify(body)
+});
+
+async function refresh() {
+  const showBlocked = document.getElementById('showBlocked').checked;
+  [GRAPH, STATE] = await Promise.all([api('/api/graph'), api('/api/state')]);
+  const queue = await api('/api/queue' + (showBlocked ? '?all=1' : ''));
+  renderQueue(queue);
+  if (cy) paintGraph();
+}
+
+function ago(d) { return d === null ? 'never reviewed' : d + 'd ago'; }
+
+function renderQueue(rows) {
+  const el = document.getElementById('queue');
+  if (!rows.length) {
+    el.innerHTML = '<div class="empty">Nothing due. Either you are on top of ' +
+                   'things, or every remaining node is blocked by a weak prerequisite.</div>';
+    return;
+  }
+  el.innerHTML = '';
+  for (const r of rows) {
+    const card = document.createElement('div');
+    card.className = 'card' + (r.blocked_by.length ? ' blocked' : '');
+    card.innerHTML = `
+      <div class="row">
+        <span class="title">${r.title}</span>
+        <span class="score">${r.priority}</span>
+      </div>
+      <div class="meta">${r.kind} &middot; conf ${r.confidence}/3 &middot; ${ago(r.days_since)}</div>
+      <div class="action">${r.action}</div>
+      <ul class="practice">${r.practice.map(p => `<li>${p}</li>`).join('')}</ul>
+      ${r.blocked_by.length
+        ? `<div class="blockmsg">blocked by: ${r.blocked_by.join(', ')}</div>` : ''}
+      <div class="log">
+        ${[0,1,2,3].map(c => `<button data-c="${c}" data-id="${r.id}">${c}</button>`).join('')}
+      </div>`;
+    el.appendChild(card);
+  }
+  el.querySelectorAll('.log button').forEach(b => {
+    b.onclick = async () => {
+      await post('/api/log', {id: b.dataset.id, confidence: +b.dataset.c});
+      refresh();
+    };
+  });
+}
+
+function buildGraph() {
+  cy = cytoscape({
+    container: document.getElementById('cy'),
+    elements: [
+      ...GRAPH.map(n => ({data: {id: n.id, label: n.title}})),
+      ...GRAPH.flatMap(n => n.deps.map(d => ({data: {source: d, target: n.id}})))
+    ],
+    style: [
+      {selector: 'node', style: {
+        'label': 'data(label)', 'color': '#e6e8ec', 'font-size': 10,
+        'text-valign': 'center', 'text-wrap': 'wrap', 'text-max-width': 90,
+        'background-color': '#4a4f5a', 'shape': 'round-rectangle',
+        'width': 105, 'height': 38, 'border-width': 1, 'border-color': '#2c313b'
+      }},
+      {selector: 'edge', style: {
+        'width': 1.2, 'line-color': '#3a404c', 'target-arrow-color': '#3a404c',
+        'target-arrow-shape': 'triangle', 'curve-style': 'bezier', 'arrow-scale': .7
+      }}
+    ],
+    // Layered, deterministic. Not a force layout: those rearrange every reload.
+    layout: {name: 'dagre', rankDir: 'BT', nodeSep: 26, rankSep: 55}
+  });
+
+  cy.on('tap', 'node', evt => showDetail(evt.target.id()));
+  cy.on('tap', e => { if (e.target === cy) document.getElementById('detail').style.display = 'none'; });
+  paintGraph();
+}
+
+function paintGraph() {
+  cy.nodes().forEach(n => {
+    const s = STATE[n.id()];
+    if (s) n.style('background-color', CONF[s.confidence]);
+  });
+}
+
+function showDetail(id) {
+  const n = GRAPH.find(x => x.id === id), s = STATE[id];
+  const d = document.getElementById('detail');
+  d.style.display = 'block';
+  d.innerHTML = `
+    <div class="title">${n.title}</div>
+    <div class="meta">${n.kind} &middot; conf ${s.confidence}/3 &middot; ${ago(s.days_since)}</div>
+    <p>${n.claim || '<i>no claim written</i>'}</p>
+    <div class="action">${n.action}</div>
+    <ul class="practice">${n.practice.map(p => `<li>${p}</li>`).join('')}</ul>
+    <div class="log">${[0,1,2,3].map(c =>
+      `<button data-c="${c}" data-id="${id}">${c}</button>`).join('')}</div>`;
+  d.querySelectorAll('button').forEach(b => {
+    b.onclick = async () => {
+      await post('/api/log', {id: b.dataset.id, confidence: +b.dataset.c});
+      await refresh();
+      showDetail(id);
+    };
+  });
+}
+
+document.querySelectorAll('.tab').forEach(t => {
+  t.onclick = () => {
+    document.querySelectorAll('.tab').forEach(x => x.classList.toggle('on', x === t));
+    const graph = t.dataset.view === 'graph';
+    document.getElementById('queue').hidden = graph;
+    document.getElementById('graphWrap').hidden = !graph;
+    if (graph && !cy) buildGraph();
+    else if (graph) cy.resize().fit(undefined, 30);
+  };
+});
+document.getElementById('showBlocked').onchange = refresh;
+
+refresh();
+</script>
