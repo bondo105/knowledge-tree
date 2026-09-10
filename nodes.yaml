@@ -13,6 +13,29 @@
 #   claim      one sentence, in your own words, of what this node says or does
 #   practice   at least one concrete thing to DO -- required
 #   refs       where to read it up
+#
+# Scope: AP Calculus BC, semester 1 (units 1-6).
+# practice entries name the homework worksheet; refs name the notes packet.
+
+# ---------------------------------------------------------------------------
+# Unit 1 - Review, Limits, Continuity, IVT, Rates of Change
+# ---------------------------------------------------------------------------
+
+- id: precalc-review
+  title: Precalculus toolkit
+  branch: calculus
+  kind: technique
+  importance: 2
+  deps: []
+  claim: >
+    Intercepts, domain and range, asymptotes, sign charts, and solving trig,
+    exponential and log equations exactly -- the algebra every later unit
+    assumes you can already do.
+  practice:
+    - "HW - Review of PreCal WS"
+    - "Solve a trig equation on $[0, 2\\pi)$ exactly, no calculator"
+  refs:
+    - "Notes Packet 1 - PreCal Review, Limits, Continuity"
 
 - id: limit-definition
   title: Limit of a function
@@ -21,27 +44,198 @@
   importance: 3
   deps: []
   claim: >
-    $f(x)$ -> $L$ as $x$ -> $a$ means we can force $f$ within any tolerance of $L$
-    by restricting $x$ to a small enough punctured interval around a.
+    $\lim_{x \to a} f(x) = L$ means $f(x)$ gets arbitrarily close to $L$ as $x$
+    approaches $a$ from both sides; whether $f(a)$ exists is irrelevant.
   practice:
-    - "Stewart 8e S2.4 #15-24 (epsilon-delta)"
-    - "State the definition from blank paper, then negate it"
+    - "HW - Limits WS"
+    - "Sketch three functions that all have the same limit at $a$ but differ at $a$"
   refs:
-    - "Stewart 8e S2.2, S2.4"
+    - "Notes Packet 1 - PreCal Review, Limits, Continuity"
+
+- id: one-sided-limits
+  title: One-sided limits
+  branch: calculus
+  kind: concept
+  importance: 3
+  deps: [limit-definition]
+  claim: >
+    The overall limit exists only if the left and right limits agree; if
+    $\lim_{x \to a^-} f(x) \neq \lim_{x \to a^+} f(x)$ the limit does not exist.
+  practice:
+    - "HW - Limits WS"
+    - "From a piecewise graph, state where the limit fails and say which side breaks it"
+  refs:
+    - "Notes Packet 1 - PreCal Review, Limits, Continuity"
+
+- id: evaluating-limits
+  title: Evaluating limits algebraically
+  branch: calculus
+  kind: technique
+  importance: 3
+  deps: [limit-definition]
+  claim: >
+    Try direct substitution first; if it gives an indeterminate form, factor,
+    rationalise or simplify and try again. The limit laws let you split sums,
+    products and quotients apart.
+  practice:
+    - "HW - Limits WS"
+    - "Work a batch mixing direct substitution, factoring and conjugates without looking at which is which"
+  refs:
+    - "Notes Packet 1 - PreCal Review, Limits, Continuity"
+
+- id: special-trig-limits
+  title: Special trig limits
+  branch: calculus
+  kind: result
+  importance: 2
+  deps: [evaluating-limits]
+  claim: >
+    $\lim_{x \to 0} \frac{\sin x}{x} = 1$ and
+    $\lim_{x \to 0} \frac{1 - \cos x}{x} = 0$; every trig limit at $0$ gets
+    rewritten into one of these two.
+  practice:
+    - "HW - Limits WS"
+    - "State both limits cold, then use them on $\\lim_{x \\to 0} \\frac{\\sin 4x}{3x}$"
+  refs:
+    - "Notes Packet 1 - PreCal Review, Limits, Continuity"
+
+- id: squeeze-theorem
+  title: Squeeze theorem
+  branch: calculus
+  kind: result
+  importance: 1
+  deps: [limit-definition]
+  claim: >
+    If $g(x) \le f(x) \le h(x)$ near $a$ and $g$ and $h$ share the same limit
+    at $a$, then $f$ is forced to that same limit.
+  practice:
+    - "State the hypotheses cold, then use it on $x^2 \\sin(1/x)$ as $x \\to 0$"
+  refs:
+    - "Notes Packet 1 - PreCal Review, Limits, Continuity"
+
+- id: asymptotes-and-infinite-limits
+  title: Limits at infinity and infinite limits
+  branch: calculus
+  kind: concept
+  importance: 2
+  deps: [limit-definition]
+  related: [precalc-review]
+  claim: >
+    End behaviour as $x \to \pm\infty$ gives horizontal asymptotes; a limit
+    running off to $\pm\infty$ at a finite $x$ gives a vertical asymptote.
+  practice:
+    - "HW - Limits WS"
+    - "Given a rational function, read off every horizontal and vertical asymptote from limits alone"
+  refs:
+    - "Notes Packet 1 - PreCal Review, Limits, Continuity"
+
+- id: continuity
+  title: Continuity at a point
+  branch: calculus
+  kind: concept
+  importance: 3
+  deps: [limit-definition, one-sided-limits]
+  claim: >
+    $f$ is continuous at $a$ when $f(a)$ exists, $\lim_{x \to a} f(x)$ exists,
+    and the two are equal; failing each condition gives a different kind of
+    discontinuity.
+  practice:
+    - "HW - Cont and IVT WS"
+    - "State all three conditions from blank paper and name the discontinuity each failure produces"
+  refs:
+    - "Notes Packet 1 - PreCal Review, Limits, Continuity"
+
+- id: ivt
+  title: Intermediate Value Theorem
+  branch: calculus
+  kind: result
+  importance: 2
+  deps: [continuity]
+  claim: >
+    A function continuous on $[a, b]$ takes every value between $f(a)$ and
+    $f(b)$ somewhere on that interval -- it cannot skip a value.
+  practice:
+    - "HW - Cont and IVT WS"
+    - "State the hypotheses, then write a full justification that a root exists on an interval"
+  refs:
+    - "Notes Packet 1 - PreCal Review, Limits, Continuity"
+
+- id: average-rate-of-change
+  title: Average rate of change
+  branch: calculus
+  kind: concept
+  importance: 2
+  deps: []
+  claim: >
+    The slope of the secant through two points,
+    $\frac{f(b) - f(a)}{b - a}$, is the average rate of change over $[a, b]$.
+  practice:
+    - "HW - Avg and Inst ROCs WS"
+  refs:
+    - "Notes - Avg and Inst Rates of Change"
+
+- id: instantaneous-rate-of-change
+  title: Instantaneous rate of change
+  branch: calculus
+  kind: concept
+  importance: 3
+  deps: [average-rate-of-change, limit-definition]
+  claim: >
+    Shrinking the secant interval to zero turns average rate into the slope of
+    the tangent: the instantaneous rate is a limit of average rates.
+  practice:
+    - "HW - Avg and Inst ROCs WS"
+    - "Estimate an instantaneous rate from a table, then say why a table can only ever estimate it"
+  refs:
+    - "Notes - Avg and Inst Rates of Change"
+
+# ---------------------------------------------------------------------------
+# Unit 2 - Differentiation and Derivative Rules
+# ---------------------------------------------------------------------------
 
 - id: derivative-definition
   title: Derivative as a limit
   branch: calculus
   kind: concept
   importance: 3
-  deps: [limit-definition]
+  deps: [instantaneous-rate-of-change, limit-definition]
   claim: >
-    $f'(a)$ is the limit of the difference quotient; it is the instantaneous
-    rate of change and the slope of the tangent line.
+    $f'(x) = \lim_{h \to 0} \frac{f(x + h) - f(x)}{h}$, with the alternative
+    form $f'(a) = \lim_{x \to a} \frac{f(x) - f(a)}{x - a}$ at a single point.
   practice:
-    - "Stewart 8e S2.7 #25-34 (differentiate from the definition)"
+    - "HW - Differentiation and Derivatives"
+    - "Differentiate a quadratic and a radical from the definition, no shortcut rules"
   refs:
-    - "Stewart 8e S2.7, S2.8"
+    - "Notes Packet 2 - Differentiation and Derivative Rules"
+
+- id: differentiability
+  title: Differentiability
+  branch: calculus
+  kind: concept
+  importance: 3
+  deps: [derivative-definition, continuity]
+  claim: >
+    Differentiable implies continuous, but not the reverse: corners, cusps,
+    vertical tangents and discontinuities each kill the derivative.
+  practice:
+    - "HW - Differentiation and Derivatives"
+    - "Find $a$ and $b$ making a piecewise function differentiable everywhere"
+  refs:
+    - "Notes Packet 2 - Differentiation and Derivative Rules"
+
+- id: derivatives-from-data
+  title: Derivatives from data
+  branch: calculus
+  kind: technique
+  importance: 2
+  deps: [derivative-definition]
+  claim: >
+    With only a table of values, estimate $f'$ at a point using the average
+    rate over the two surrounding points.
+  practice:
+    - "HW - Derivs using data"
+  refs:
+    - "Notes Packet 2 - Differentiation and Derivative Rules"
 
 - id: power-rule
   title: Power rule
@@ -50,11 +244,29 @@
   importance: 3
   deps: [derivative-definition]
   claim: >
-    $\frac{d}{dx} x^n = n x^{n-1}$, for all real $n$.
+    $\frac{d}{dx} x^n = n x^{n-1}$, for all real $n$. With the constant,
+    constant-multiple and sum rules this covers every polynomial.
   practice:
-    - "Stewart 8e S3.1 #3-30"
+    - "HW - Power Rule"
+    - "HW - Diff Rules"
   refs:
-    - "Stewart 8e S3.1"
+    - "Notes Packet 2 - Differentiation and Derivative Rules"
+
+- id: trig-derivatives
+  title: Derivatives of trig functions
+  branch: calculus
+  kind: result
+  importance: 3
+  deps: [derivative-definition]
+  related: [quotient-rule, special-trig-limits]
+  claim: >
+    $\frac{d}{dx} \sin x = \cos x$ and $\frac{d}{dx} \cos x = -\sin x$; the
+    other four follow from the quotient rule.
+  practice:
+    - "HW - Diff Rules"
+    - "Write all six from memory, then rederive $\\tan$ and $\\sec$ from the quotient rule"
+  refs:
+    - "Notes Packet 2 - Differentiation and Derivative Rules"
 
 - id: product-rule
   title: Product rule
@@ -65,10 +277,10 @@
   claim: >
     $(fg)' = f'g + fg'$.
   practice:
-    - "Stewart 8e S3.2 #3-26"
+    - "HW - Product, Quotient Rules"
     - "Derive it from the difference quotient without looking"
   refs:
-    - "Stewart 8e S3.2"
+    - "Notes Packet 2 - Differentiation and Derivative Rules"
 
 - id: quotient-rule
   title: Quotient rule
@@ -78,11 +290,11 @@
   deps: [product-rule]
   related: [chain-rule]
   claim: >
-    $(\frac{f}{g})' = \frac{f'g - fg'}{g^2}$.
+    $\left(\frac{f}{g}\right)' = \frac{f'g - fg'}{g^2}$.
   practice:
-    - "Stewart 8e S3.2 #27-43"
+    - "HW - Product, Quotient Rules"
   refs:
-    - "Stewart 8e S3.2"
+    - "Notes Packet 2 - Differentiation and Derivative Rules"
 
 - id: chain-rule
   title: Chain rule
@@ -91,11 +303,32 @@
   importance: 3
   deps: [derivative-definition]
   claim: >
-    $(f o g)'(x) = f'(g(x)) g'(x)$; rates of change compose multiplicatively.
+    $(f \circ g)'(x) = f'(g(x)) \, g'(x)$; rates of change compose
+    multiplicatively.
   practice:
-    - "Stewart 8e S3.4 #7-46"
+    - "HW - Chain Rule"
+    - "Work a batch of three-deep compositions without writing intermediate substitutions"
   refs:
-    - "Stewart 8e S3.4"
+    - "Notes Packet 2 - Differentiation and Derivative Rules"
+
+- id: higher-order-derivatives
+  title: Higher order derivatives
+  branch: calculus
+  kind: concept
+  importance: 2
+  deps: [power-rule]
+  claim: >
+    Differentiating repeatedly gives $f''$, $f'''$, ...; each one describes how
+    the previous one is changing.
+  practice:
+    - "HW - Diff Rules"
+    - "Take a fourth derivative and say in words what each order describes"
+  refs:
+    - "Notes Packet 2 - Differentiation and Derivative Rules"
+
+# ---------------------------------------------------------------------------
+# Unit 3 - Applications of Differentiation
+# ---------------------------------------------------------------------------
 
 - id: implicit-differentiation
   title: Implicit differentiation
@@ -107,9 +340,9 @@
     Differentiate both sides of an unsolved relation in $x$ and $y$, treating $y$
     as a function of $x$, then solve for $\frac{dy}{dx}$.
   practice:
-    - "Stewart 8e S3.5 #5-20"
+    - "HW - Implicit"
   refs:
-    - "Stewart 8e S3.5"
+    - "Notes Packet 3A - Implicit Differentiation, Related Rates"
 
 - id: related-rates
   title: Related rates
@@ -121,23 +354,254 @@
     Link two changing quantities by an equation, differentiate with respect
     to time, and solve for the unknown rate.
   practice:
-    - "Stewart 8e S3.9 #11-33"
+    - "HW - Related Rates"
+    - "Do one cold without drawing, then check whether the picture would have caught an error"
   refs:
-    - "Stewart 8e S3.9"
+    - "Notes Packet 3A - Implicit Differentiation, Related Rates"
+
+- id: critical-points
+  title: Critical numbers and extrema
+  branch: calculus
+  kind: concept
+  importance: 3
+  deps: [derivative-definition]
+  claim: >
+    A critical number is where $f'(c) = 0$ or $f'(c)$ does not exist; relative
+    extrema can only happen there, but not every critical number is one.
+  practice:
+    - "HW - Extrema, Rolles, MVT"
+    - "Find absolute extrema on a closed interval using the candidates test"
+  refs:
+    - "Notes Packet 3B - Extrema, Derivative Tests, Connections"
+
+- id: extreme-value-theorem
+  title: Extreme Value Theorem
+  branch: calculus
+  kind: result
+  importance: 2
+  deps: [continuity, critical-points]
+  claim: >
+    A function continuous on a closed interval $[a, b]$ must attain both an
+    absolute maximum and an absolute minimum on it.
+  practice:
+    - "State the hypotheses cold, then sketch what breaks if the interval is open"
+  refs:
+    - "Notes Packet 3B - Extrema, Derivative Tests, Connections"
+
+- id: rolles-theorem
+  title: Rolle's Theorem
+  branch: calculus
+  kind: result
+  importance: 1
+  deps: [critical-points, differentiability]
+  claim: >
+    If $f$ is continuous on $[a, b]$, differentiable on $(a, b)$ and
+    $f(a) = f(b)$, then $f'(c) = 0$ somewhere inside.
+  practice:
+    - "HW - Extrema, Rolles, MVT"
+  refs:
+    - "Notes Packet 3B - Extrema, Derivative Tests, Connections"
+
+- id: mean-value-theorem
+  title: Mean Value Theorem
+  branch: calculus
+  kind: result
+  importance: 2
+  deps: [rolles-theorem]
+  claim: >
+    Under the same hypotheses minus $f(a) = f(b)$, some interior $c$ has
+    $f'(c) = \frac{f(b) - f(a)}{b - a}$: instantaneous rate equals average rate
+    somewhere.
+  practice:
+    - "HW - Extrema, Rolles, MVT"
+    - "State the hypotheses and write a full justification, not just the number"
+  refs:
+    - "Notes Packet 3B - Extrema, Derivative Tests, Connections"
+
+- id: first-derivative-test
+  title: First derivative test
+  branch: calculus
+  kind: technique
+  importance: 3
+  deps: [critical-points]
+  claim: >
+    $f$ increases where $f' > 0$ and decreases where $f' < 0$; a sign change of
+    $f'$ at a critical number identifies a relative max or min.
+  practice:
+    - "HW - 1st and 2nd Derivs"
+    - "Build a sign chart and justify each extremum in a sentence"
+  refs:
+    - "Notes Packet 3B - Extrema, Derivative Tests, Connections"
+
+- id: concavity
+  title: Concavity and the second derivative test
+  branch: calculus
+  kind: concept
+  importance: 3
+  deps: [higher-order-derivatives, first-derivative-test]
+  claim: >
+    $f$ is concave up where $f'' > 0$ and down where $f'' < 0$; a sign change of
+    $f''$ is an inflection point, and $f''(c)$ classifies a critical point.
+  practice:
+    - "HW - 1st and 2nd Derivs"
+    - "Say why an inflection point needs a sign change, not just $f''(c) = 0$"
+  refs:
+    - "Notes Packet 3B - Extrema, Derivative Tests, Connections"
+
+- id: derivative-connections
+  title: Connections between f, f' and f''
+  branch: calculus
+  kind: concept
+  importance: 3
+  deps: [first-derivative-test, concavity]
+  claim: >
+    Given the graph of any one of $f$, $f'$, $f''$, read off the increasing and
+    decreasing behaviour, extrema and concavity of the others.
+  practice:
+    - "HW - Deriv Connections"
+    - "Activity - TrueFalse Deriv Statements"
+    - "From a graph of $f'$ alone, sketch a possible $f$ and justify every feature"
+  refs:
+    - "Notes Packet 3B - Extrema, Derivative Tests, Connections"
+
+- id: kinematics
+  title: Kinematics and rectilinear motion
+  branch: calculus
+  kind: model
+  importance: 3
+  deps: [higher-order-derivatives]
+  claim: >
+    Position differentiates to velocity and velocity to acceleration; the
+    particle speeds up when $v$ and $a$ share a sign and slows down when they
+    do not.
+  practice:
+    - "HW - Kinematics"
+    - "Distinguish displacement from total distance on one problem and say why they differ"
+  refs:
+    - "Notes Packet 3C - Kinematics, Optimization, Linear Approximation, Differentials, Newton_s Method"
+
+- id: optimization
+  title: Optimization
+  branch: calculus
+  kind: technique
+  importance: 3
+  deps: [critical-points, first-derivative-test]
+  claim: >
+    Write the quantity to be optimised as a function of one variable using the
+    constraint, then find and justify its extremum on the feasible domain.
+  practice:
+    - "HW - Optimization"
+    - "Do one end to end including the justification that your critical point is the max"
+  refs:
+    - "Notes Packet 3C - Kinematics, Optimization, Linear Approximation, Differentials, Newton_s Method"
+
+- id: linear-approximation
+  title: Linear approximation and differentials
+  branch: calculus
+  kind: technique
+  importance: 2
+  deps: [derivative-definition]
+  claim: >
+    Near $x = a$ the tangent line $L(x) = f(a) + f'(a)(x - a)$ approximates $f$,
+    and $dy = f'(x)\,dx$ estimates the resulting change.
+  practice:
+    - "HW - Linear Approximations, Differentials, Newtons Method"
+    - "Say whether concavity makes your estimate an over- or underestimate"
+  refs:
+    - "Notes Packet 3C - Kinematics, Optimization, Linear Approximation, Differentials, Newton_s Method"
+
+- id: newtons-method
+  title: Newton's method
+  branch: calculus
+  kind: technique
+  importance: 1
+  deps: [linear-approximation]
+  claim: >
+    Iterate $x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}$: each step replaces $f$ by
+    its tangent line and takes that line's root.
+  practice:
+    - "HW - Linear Approximations, Differentials, Newtons Method"
+  refs:
+    - "Notes Packet 3C - Kinematics, Optimization, Linear Approximation, Differentials, Newton_s Method"
+
+- id: lhopitals-rule
+  title: L'Hopital's rule
+  branch: calculus
+  kind: technique
+  importance: 2
+  deps: [evaluating-limits, derivative-definition]
+  claim: >
+    If a limit gives $\frac{0}{0}$ or $\frac{\infty}{\infty}$, the limit of
+    $\frac{f'}{g'}$ replaces it -- differentiate top and bottom separately, not
+    as a quotient.
+  practice:
+    - "HW - LHopitals Rule"
+    - "Check the indeterminate form first on each problem; say what happens if you skip that check"
+  refs:
+    - "Notes Packet 3D - LHopitals Rule, Inverses"
+
+- id: inverse-function-derivative
+  title: Derivative of an inverse function
+  branch: calculus
+  kind: result
+  importance: 2
+  deps: [derivative-definition, chain-rule]
+  claim: >
+    $(f^{-1})'(a) = \frac{1}{f'(f^{-1}(a))}$: the inverse's slope is the
+    reciprocal of the original's slope at the matching point.
+  practice:
+    - "HW - Inverses"
+  refs:
+    - "Notes Packet 3D - LHopitals Rule, Inverses"
+
+# ---------------------------------------------------------------------------
+# Unit 4 - Antidifferentiation and Integration
+# ---------------------------------------------------------------------------
+
+- id: antiderivatives
+  title: Antiderivatives and indefinite integrals
+  branch: calculus
+  kind: concept
+  importance: 3
+  deps: [power-rule, trig-derivatives]
+  claim: >
+    An indefinite integral is the whole family of antiderivatives, which is why
+    the $+ C$ is part of the answer and not decoration.
+  practice:
+    - "HW - Indef ints"
+    - "Reverse each differentiation rule you know into its integration rule"
+  refs:
+    - "Notes Packet 4A - Integration"
+
+- id: u-substitution
+  title: Integration by u-substitution
+  branch: calculus
+  kind: technique
+  importance: 3
+  deps: [antiderivatives, chain-rule]
+  claim: >
+    Substitution is the chain rule run backwards; for a definite integral you
+    must also change the limits of integration.
+  practice:
+    - "HW - indef int and Usub"
+    - "HW - def ints with substitution"
+  refs:
+    - "Notes Packet 4A - Integration"
 
 - id: riemann-sum
   title: Riemann sums
   branch: calculus
-  kind: concept
-  importance: 2
+  kind: technique
+  importance: 3
   deps: [limit-definition]
   claim: >
-    Area under a curve is approximated by summing rectangle areas; the
-    integral is the limit as the partition is refined.
+    Approximate area with rectangles or trapezoids -- left, right, midpoint or
+    trapezoidal -- and the approximation improves as the subintervals shrink.
   practice:
-    - "Stewart 8e S5.1 #5-18"
+    - "HW - Riemann"
+    - "Do all four approximations on the same function and say which over- and underestimate, and why"
   refs:
-    - "Stewart 8e S5.1"
+    - "Notes Packet 4A - Integration"
 
 - id: definite-integral
   title: The definite integral
@@ -146,68 +610,337 @@
   importance: 3
   deps: [riemann-sum]
   claim: >
-    The definite integral is the limit of Riemann sums, and is a number, not
-    a family of functions.
+    $\int_a^b f(x)\,dx$ is the limit of Riemann sums as the number of
+    rectangles goes to infinity, and it is a number, not a family of functions.
   practice:
-    - "Stewart 8e S5.2 #33-48"
+    - "HW - def ints"
+    - "State the definition as a limit of a sum from blank paper"
   refs:
-    - "Stewart 8e S5.2"
+    - "Notes Packet 4A - Integration"
+
+- id: riemann-integral-notation
+  title: Riemann sum versus integral notation
+  branch: calculus
+  kind: technique
+  importance: 2
+  deps: [riemann-sum, definite-integral]
+  claim: >
+    Translate between a limit of a sigma-notation sum and the definite integral
+    it equals, reading $\Delta x$ and the sample points off the summand.
+  practice:
+    - "HW - Int vs Riemann notation"
+    - "Convert in both directions on one problem each"
+  refs:
+    - "Notes Packet 4B - Integration (cont)"
+
+- id: integrals-using-geometry
+  title: Definite integrals from geometry
+  branch: calculus
+  kind: technique
+  importance: 2
+  deps: [definite-integral]
+  claim: >
+    When the graph is made of lines and circular arcs, evaluate the integral by
+    computing signed areas instead of antidifferentiating.
+  practice:
+    - "HW - Int using geom"
+  refs:
+    - "Notes Packet 4A - Integration"
+
+- id: net-vs-total-area
+  title: Net area versus total area
+  branch: calculus
+  kind: concept
+  importance: 2
+  deps: [definite-integral]
+  related: [kinematics]
+  claim: >
+    $\int_a^b f$ counts area below the axis as negative, while
+    $\int_a^b |f|$ counts all of it as positive -- the same split as
+    displacement versus total distance.
+  practice:
+    - "HW - def ints"
+    - "Compute both on one sign-changing function and state which question each answers"
+  refs:
+    - "Notes Packet 4A - Integration"
 
 - id: ftc
-  title: Fundamental theorem of calculus
+  title: Fundamental theorem of calculus (Part 1)
   branch: calculus
   kind: result
   importance: 3
-  deps: [definite-integral, derivative-definition]
+  deps: [definite-integral, antiderivatives]
   claim: >
-    Differentiation and integration are inverse operations: the accumulation
-    function of $f$ has derivative $f$, and definite integrals are computed by
-    evaluating any antiderivative at the endpoints.
+    $\int_a^b f(x)\,dx = F(b) - F(a)$ for any antiderivative $F$ of $f$: the
+    definite integral is computed by evaluating at the endpoints.
   practice:
-    - "Stewart 8e S5.3 #7-48"
-    - "State both parts and sketch the proof of Part 1 from blank paper"
+    - "HW - 1st FTC"
+    - "State it and sketch why it works from blank paper"
   refs:
-    - "Stewart 8e S5.3"
+    - "Notes Packet 4A - Integration"
 
-- id: u-substitution
-  title: Substitution rule
+# ---------------------------------------------------------------------------
+# Unit 5 - Applications of Integration
+# ---------------------------------------------------------------------------
+
+- id: average-value
+  title: Average value of a function
+  branch: calculus
+  kind: result
+  importance: 2
+  deps: [ftc]
+  claim: >
+    The average value of $f$ on $[a, b]$ is
+    $\frac{1}{b - a}\int_a^b f(x)\,dx$ -- the height of the rectangle with the
+    same area.
+  practice:
+    - "HW - Avg Value, Int Using Data"
+    - "Say why dividing by $b - a$ is what makes it an average"
+  refs:
+    - "Notes Packet 5 - Avg Value, Int Using Data, 2nd FTC, Functions Defined By Ints"
+
+- id: integration-using-data
+  title: Integration using data
+  branch: calculus
+  kind: technique
+  importance: 2
+  deps: [riemann-sum, definite-integral]
+  claim: >
+    Given only a table, approximate a definite integral with a midpoint or
+    trapezoidal sum over the given subintervals.
+  practice:
+    - "HW - Avg Value, Int Using Data"
+    - "Write the units of your answer and what it means in context"
+  refs:
+    - "Notes Packet 5 - Avg Value, Int Using Data, 2nd FTC, Functions Defined By Ints"
+
+- id: second-ftc
+  title: Second fundamental theorem of calculus
+  branch: calculus
+  kind: result
+  importance: 3
+  deps: [ftc, chain-rule]
+  claim: >
+    $\frac{d}{dx}\int_a^{x} f(t)\,dt = f(x)$; with a function as the upper
+    limit, the chain rule multiplies in that limit's derivative.
+  practice:
+    - "HW - 2nd FTC"
+    - "Do one with $x^2$ as the upper limit and say where the chain rule entered"
+  refs:
+    - "Notes Packet 5 - Avg Value, Int Using Data, 2nd FTC, Functions Defined By Ints"
+
+- id: functions-defined-by-integrals
+  title: Functions defined by integrals
+  branch: calculus
+  kind: concept
+  importance: 3
+  deps: [second-ftc, derivative-connections]
+  claim: >
+    For $g(x) = \int_a^{x} f(t)\,dt$, the graph of $f$ gives $g'$, so areas
+    give values of $g$ and sign changes of $f$ give the extrema of $g$.
+  practice:
+    - "HW - Functions Defined By Ints"
+    - "From a graph of $f$, tabulate $g$, $g'$ and $g''$ behaviour and justify each"
+  refs:
+    - "Notes Packet 5 - Avg Value, Int Using Data, 2nd FTC, Functions Defined By Ints"
+
+- id: accumulation
+  title: Accumulation and net change
+  branch: calculus
+  kind: model
+  importance: 3
+  deps: [ftc]
+  claim: >
+    Integrating a rate over an interval gives the net change in the quantity,
+    so final amount equals starting amount plus the accumulated integral.
+  practice:
+    - "HW - Accumulation"
+    - "Write the accumulation equation for an in-and-out rate problem, with units"
+  refs:
+    - "Notes Packet 8 - Area, Volume, Accumulation, Arc Length"
+
+- id: area-between-curves
+  title: Area between two curves
   branch: calculus
   kind: technique
   importance: 3
-  deps: [chain-rule, ftc]
+  deps: [definite-integral, ftc]
   claim: >
-    Substitution is the chain rule run backwards; changing variables must
-    also change the limits of integration.
+    Integrate (top minus bottom) in $x$, or (right minus left) in $y$, over the
+    interval where the curves bound the region.
   practice:
-    - "Stewart 8e S5.5 #7-46"
+    - "HW - Area"
+    - "Do one region both ways and say which orientation avoided splitting the integral"
   refs:
-    - "Stewart 8e S5.5"
+    - "Notes Packet 8 - Area, Volume, Accumulation, Arc Length"
 
-- id: integration-by-parts
-  title: Integration by parts
+- id: volume-cross-sections
+  title: Volume by known cross sections
+  branch: calculus
+  kind: technique
+  importance: 2
+  deps: [area-between-curves]
+  claim: >
+    Integrate the area of the cross section along the axis: the base region
+    supplies the side length at each slice.
+  practice:
+    - "HW - Cross Sections"
+  refs:
+    - "Notes Packet 8 - Area, Volume, Accumulation, Arc Length"
+
+- id: volume-discs-washers
+  title: Volume by discs and washers
   branch: calculus
   kind: technique
   importance: 3
-  deps: [product-rule, ftc]
-  related: [u-substitution]
+  deps: [volume-cross-sections]
   claim: >
-    Turns the integral of u dv into uv minus the integral of v du; used when
-    one factor simplifies under differentiation.
+    Revolving gives circular cross sections, so integrate $\pi R^2$, or
+    $\pi(R^2 - r^2)$ when the solid has a hole -- radii measured from the axis
+    of revolution, not the origin.
   practice:
-    - "Stewart 8e S7.1 #3-20, 41-45"
+    - "HW - Discs, Washers, Shells"
+    - "HW - Area and Volume"
   refs:
-    - "Stewart 8e S7.1"
+    - "Notes Packet 8 - Area, Volume, Accumulation, Arc Length"
 
-- id: trig-substitution
-  title: Trigonometric substitution
+- id: volume-shells
+  title: Volume by cylindrical shells
+  branch: calculus
+  kind: technique
+  importance: 2
+  deps: [area-between-curves]
+  related: [volume-discs-washers]
+  claim: >
+    Integrate $2\pi(\text{radius})(\text{height})$ over the slicing variable,
+    which is the one parallel to the axis of revolution.
+  practice:
+    - "HW - Discs, Washers, Shells"
+    - "Do one solid by both shells and washers and confirm the answers agree"
+  refs:
+    - "Notes Packet 8 - Area, Volume, Accumulation, Arc Length"
+
+- id: arc-length
+  title: Arc length
+  branch: calculus
+  kind: result
+  importance: 1
+  deps: [definite-integral, ftc]
+  claim: >
+    The length of $y = f(x)$ on $[a, b]$ is
+    $\int_a^b \sqrt{1 + (f'(x))^2}\,dx$, which is the Pythagorean theorem
+    applied to each infinitesimal piece.
+  practice:
+    - "HW - Arc Length"
+  refs:
+    - "Notes Packet 8 - Area, Volume, Accumulation, Arc Length"
+
+# ---------------------------------------------------------------------------
+# Unit 6 - Transcendental Functions
+# ---------------------------------------------------------------------------
+
+- id: log-derivative
+  title: Derivative of the natural log
+  branch: calculus
+  kind: result
+  importance: 3
+  deps: [chain-rule]
+  claim: >
+    $\frac{d}{dx}\ln x = \frac{1}{x}$, so
+    $\frac{d}{dx}\ln u = \frac{u'}{u}$; expanding log properties first usually
+    makes the derivative easier.
+  practice:
+    - "HW - Log Derivs and Ints"
+  refs:
+    - "Notes Packet 6 - Transcendental Functions - Log, Exp, Inv Trig"
+
+- id: log-integral
+  title: Integrals giving natural log
+  branch: calculus
+  kind: result
+  importance: 3
+  deps: [u-substitution, log-derivative]
+  claim: >
+    $\int \frac{1}{u}\,du = \ln|u| + C$ -- this is the case the power rule for
+    integration cannot handle, and the absolute value is required.
+  practice:
+    - "HW - Log Derivs and Ints"
+    - "Say why the power rule fails at $n = -1$"
+  refs:
+    - "Notes Packet 6 - Transcendental Functions - Log, Exp, Inv Trig"
+
+- id: logarithmic-differentiation
+  title: Logarithmic differentiation
   branch: calculus
   kind: technique
   importance: 1
-  deps: [u-substitution]
+  deps: [log-derivative, implicit-differentiation]
   claim: >
-    Radicals of the form $a^2 - x^2$, $a^2 + x^2$, $x^2 - a^2$ are cleared by
-    substituting a $sin$, a $tan$, or a $sec$ respectively.
+    Take $\ln$ of both sides, differentiate implicitly, then solve for $y'$ --
+    the only way to handle a variable base raised to a variable exponent.
   practice:
-    - "Stewart 8e S7.3 #1-24"
+    - "HW - Log Derivs and Ints"
+    - "Differentiate $y = x^x$ from scratch"
   refs:
-    - "Stewart 8e S7.3"
+    - "Notes Packet 6 - Transcendental Functions - Log, Exp, Inv Trig"
+
+- id: exponential-derivative-integral
+  title: Derivatives and integrals of e^x
+  branch: calculus
+  kind: result
+  importance: 3
+  deps: [chain-rule, log-derivative]
+  claim: >
+    $\frac{d}{dx}e^x = e^x$ and $\int e^u\,du = e^u + C$; the chain rule
+    supplies the $u'$ going forwards and demands it going backwards.
+  practice:
+    - "HW - Exp Derivs and Ints"
+  refs:
+    - "Notes Packet 6 - Transcendental Functions - Log, Exp, Inv Trig"
+
+- id: bases-other-than-e
+  title: Bases other than e
+  branch: calculus
+  kind: technique
+  importance: 1
+  deps: [exponential-derivative-integral, log-derivative]
+  claim: >
+    $\frac{d}{dx}a^x = a^x \ln a$ and
+    $\frac{d}{dx}\log_a x = \frac{1}{x \ln a}$: every other base is $e$ with a
+    $\ln a$ correction factor.
+  practice:
+    - "HW - Exp Derivs and Ints"
+    - "Rewrite $a^x$ as $e^{x \\ln a}$ and rederive the rule"
+  refs:
+    - "Notes Packet 6 - Transcendental Functions - Log, Exp, Inv Trig"
+
+- id: inverse-trig-derivatives
+  title: Derivatives of inverse trig functions
+  branch: calculus
+  kind: result
+  importance: 2
+  deps: [chain-rule, inverse-function-derivative]
+  claim: >
+    $\frac{d}{dx}\arcsin x = \frac{1}{\sqrt{1 - x^2}}$ and
+    $\frac{d}{dx}\arctan x = \frac{1}{1 + x^2}$, each with a $u'$ on top under
+    the chain rule.
+  practice:
+    - "HW - Inv Trig Derivs"
+  refs:
+    - "Notes Packet 6 - Transcendental Functions - Log, Exp, Inv Trig"
+
+- id: inverse-trig-integrals
+  title: Integrals giving inverse trig
+  branch: calculus
+  kind: result
+  importance: 2
+  deps: [inverse-trig-derivatives, u-substitution]
+  claim: >
+    $\int \frac{du}{\sqrt{a^2 - u^2}} = \arcsin\frac{u}{a} + C$ and
+    $\int \frac{du}{a^2 + u^2} = \frac{1}{a}\arctan\frac{u}{a} + C$; spotting
+    the pattern is the whole skill.
+  practice:
+    - "HW - Inv Trig Ints"
+    - "Sort a mixed set into log, inverse trig and plain u-sub before integrating any"
+  refs:
+    - "Notes Packet 6 - Transcendental Functions - Log, Exp, Inv Trig"
